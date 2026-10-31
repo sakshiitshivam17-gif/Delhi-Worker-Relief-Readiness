@@ -114,6 +114,13 @@ export const DEMO_CAMPS: Camp[] = [
     hours: "9:30 AM – 5:30 PM",
     services: ["registration", "verification", "helpline"],
     mapsQuery: "Kashmere Gate Metro Station, Delhi",
+    voiceAliases: [
+      "कश्मीरी गेट",
+      "काश्मीर गेट",
+      "ਕਸ਼ਮੀਰੀ ਗੇਟ",
+      "কাশ্মীরি গেট",
+      "காஷ்மீரி கேட்",
+    ],
   },
   {
     id: "okhla",
@@ -126,6 +133,7 @@ export const DEMO_CAMPS: Camp[] = [
     hours: "10:00 AM – 5:00 PM",
     services: ["registration", "documents", "verification"],
     mapsQuery: "Okhla NSIC Metro Station, New Delhi",
+    voiceAliases: ["ओखला", "ਓਖਲਾ", "ওখলা", "ஒக்லா"],
   },
   {
     id: "dwarka",
@@ -138,6 +146,7 @@ export const DEMO_CAMPS: Camp[] = [
     hours: "9:30 AM – 5:30 PM",
     services: ["registration", "documents", "helpline"],
     mapsQuery: "Dwarka Sector 21 Metro Station, Delhi",
+    voiceAliases: ["द्वारका", "ਦਵਾਰਕਾ", "দ্বারকা", "துவாரகா"],
   },
   {
     id: "anand-vihar",
@@ -150,6 +159,12 @@ export const DEMO_CAMPS: Camp[] = [
     hours: "10:00 AM – 4:30 PM",
     services: ["verification", "documents", "helpline"],
     mapsQuery: "Anand Vihar ISBT Metro Station, Delhi",
+    voiceAliases: [
+      "आनंद विहार",
+      "ਆਨੰਦ ਵਿਹਾਰ",
+      "আনন্দ বিহার",
+      "ஆனந்த் விஹார்",
+    ],
   },
   {
     id: "karol-bagh",
@@ -162,5 +177,11 @@ export const DEMO_CAMPS: Camp[] = [
     hours: "9:30 AM – 5:00 PM",
     services: ["registration", "verification", "documents"],
     mapsQuery: "Karol Bagh Metro Station, Delhi",
+    voiceAliases: [
+      "करोल बाग",
+      "ਕਰੋਲ ਬਾਗ",
+      "করোল বাগ",
+      "கரோல் பாக்",
+    ],
   },
 ];

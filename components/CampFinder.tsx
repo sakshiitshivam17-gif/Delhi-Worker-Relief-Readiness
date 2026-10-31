@@ -1,12 +1,19 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import {
+  useCallback,
+  useDeferredValue,
+  useMemo,
+  useState,
+} from "react";
 import {
   Clock3,
   ExternalLink,
   Footprints,
   Info,
+  Loader2,
   MapPin,
+  Mic,
   Navigation,
   Phone,
   PhoneCall,
@@ -22,6 +29,7 @@ import {
   SHARMIK_HELPLINE,
 } from "@/lib/data";
 import type { Camp, CampZone } from "@/lib/types";
+import { useSpeechRecognition } from "@/lib/use-speech-recognition";
 import {
   cn,
   formatDistance,
@@ -40,9 +48,25 @@ const ZONES: ZoneFilter[] = [
 ];
 
 export function CampFinder() {
-  const { t } = useLanguage();
+  const { t, speechLocale } = useLanguage();
   const [query, setQuery] = useState("");
   const [zone, setZone] = useState<ZoneFilter>("all");
+
+  const handleSpeechResult = useCallback((transcript: string) => {
+    setQuery(transcript.trim());
+  }, []);
+
+  const {
+    isListening,
+    isSupported,
+    error: speechError,
+    cancelListening,
+    toggleListening,
+  } = useSpeechRecognition({
+    locale: speechLocale,
+    onResult: handleSpeechResult,
+  });
+
   const deferredQuery = useDeferredValue(query);
 
   const camps = useMemo(() => {
@@ -56,7 +80,9 @@ export function CampFinder() {
         .map((service) => t.camps.serviceLabels[service])
         .join(" ");
 
-      return `${camp.name} ${camp.area} ${camp.metro} ${serviceText}`
+      const aliasText = camp.voiceAliases?.join(" ") ?? "";
+
+      return `${camp.name} ${camp.area} ${camp.metro} ${aliasText} ${serviceText}`
         .toLowerCase()
         .includes(normalized);
     }).sort((a, b) => a.distanceMeters - b.distanceMeters);
@@ -87,23 +113,74 @@ export function CampFinder() {
           />
           <input
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder={t.camps.searchPlaceholder}
+            onChange={(event) => {
+              if (isListening) cancelListening();
+              setQuery(event.target.value);
+            }}
+            placeholder={
+              isListening
+                ? t.common.voiceListening
+                : t.camps.searchPlaceholder
+            }
             aria-label={t.camps.searchLabel}
             autoComplete="off"
-            className="min-h-11 w-full rounded-md border border-slate-300 bg-white pl-10 pr-10 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-purple-600 focus:ring-2 focus:ring-purple-100"
+            className="min-h-11 w-full rounded-md border border-slate-300 bg-white pl-10 pr-20 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-purple-600 focus:ring-2 focus:ring-purple-100"
           />
-          {query ? (
-            <button
-              type="button"
-              onClick={() => setQuery("")}
-              aria-label={t.camps.clearSearch}
-              className="absolute right-1 top-1 grid h-9 w-9 place-items-center rounded text-slate-500 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-purple-600"
-            >
-              <X aria-hidden="true" className="h-4 w-4" />
-            </button>
-          ) : null}
+          <div className="absolute inset-y-0 right-1 flex items-center gap-0.5">
+            {isSupported ? (
+              <button
+                type="button"
+                onClick={toggleListening}
+                aria-label={
+                  isListening ? t.common.voiceStop : t.common.voiceStart
+                }
+                aria-pressed={isListening}
+                title={
+                  isListening ? t.common.voiceStop : t.common.voiceStart
+                }
+                className={cn(
+                  "grid h-9 w-9 shrink-0 place-items-center rounded-md border transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 active:scale-95",
+                  isListening
+                    ? "animate-pulse border-rose-300 bg-rose-100 text-rose-700"
+                    : "border-cyan-200 bg-white text-cyan-800 hover:bg-cyan-50"
+                )}
+              >
+                {isListening ? (
+                  <Loader2
+                    aria-hidden="true"
+                    className="h-4 w-4 animate-spin"
+                  />
+                ) : (
+                  <Mic aria-hidden="true" className="h-4 w-4" />
+                )}
+              </button>
+            ) : null}
+            {query ? (
+              <button
+                type="button"
+                onClick={() => {
+                  cancelListening();
+                  setQuery("");
+                }}
+                aria-label={t.camps.clearSearch}
+                className="grid h-9 w-9 place-items-center rounded-md text-slate-500 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-purple-600"
+              >
+                <X aria-hidden="true" className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
         </div>
+        <span role="status" aria-live="polite" className="sr-only">
+          {isListening ? t.common.voiceListening : ""}
+        </span>
+        {speechError ? (
+          <p
+            role="alert"
+            className="mt-1.5 text-[11px] font-semibold leading-snug text-rose-700"
+          >
+            {t.common.voiceError}
+          </p>
+        ) : null}
 
         <div
           role="group"

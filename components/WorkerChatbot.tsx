@@ -9,7 +9,10 @@ import {
   type FormEvent,
 } from "react";
 import {
+  Loader2,
   MessageCircle,
+  Mic,
+  MicOff,
   SendHorizontal,
   Square,
   Volume2,
@@ -21,6 +24,7 @@ import {
   findChatbotAnswer,
 } from "@/lib/chatbot-knowledge";
 import { LANGUAGE_OPTIONS } from "@/lib/i18n";
+import { useSpeechRecognition } from "@/lib/use-speech-recognition";
 import { cn } from "@/lib/utils";
 
 interface ChatMessage {
@@ -34,7 +38,7 @@ function createMessageId(): string {
 }
 
 export function WorkerChatbot() {
-  const { language, speechLocale } = useLanguage();
+  const { language, speechLocale, t } = useLanguage();
   const content = useMemo(() => getChatbotContent(language), [language]);
   const activeLanguage = useMemo(
     () =>
@@ -51,6 +55,21 @@ export function WorkerChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const previousLanguage = useRef(language);
+
+  const handleSpeechResult = useCallback((transcript: string) => {
+    setInput(transcript);
+  }, []);
+
+  const {
+    isListening,
+    isSupported,
+    error: speechError,
+    cancelListening,
+    toggleListening,
+  } = useSpeechRecognition({
+    locale: speechLocale,
+    onResult: handleSpeechResult,
+  });
 
   const stopSpeaking = useCallback(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -102,6 +121,7 @@ export function WorkerChatbot() {
       const text = rawValue.trim();
       if (!text) return;
 
+      cancelListening();
       const response = findChatbotAnswer(text, language);
       setMessages((current) => [
         ...current,
@@ -111,7 +131,7 @@ export function WorkerChatbot() {
       setInput("");
       stopSpeaking();
     },
-    [language, stopSpeaking]
+    [cancelListening, language, stopSpeaking]
   );
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -119,10 +139,18 @@ export function WorkerChatbot() {
     sendMessage(input);
   };
 
+  function handleVoiceToggle() {
+    if (!isListening) {
+      stopSpeaking();
+    }
+    toggleListening();
+  }
+
   const closeChat = useCallback(() => {
     setOpen(false);
+    cancelListening();
     stopSpeaking();
-  }, [stopSpeaking]);
+  }, [cancelListening, stopSpeaking]);
 
   useEffect(() => {
     if (previousLanguage.current === language) return;
@@ -303,15 +331,59 @@ export function WorkerChatbot() {
             className="border-t border-cyan-200/80 bg-white/70 p-2.5"
           >
             <div className="flex items-center gap-1.5 rounded-md border border-cyan-200 bg-white/95 p-1.5 shadow-sm focus-within:border-cyan-300 focus-within:ring-2 focus-within:ring-cyan-600/15">
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                placeholder={content.placeholder}
-                aria-label={content.placeholder}
-                autoComplete="off"
-                className="min-h-10 min-w-0 flex-1 rounded-md bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-              />
+              <div className="relative min-w-0 flex-1">
+                <input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(event) => {
+                    if (isListening) cancelListening();
+                    setInput(event.target.value);
+                  }}
+                  placeholder={
+                    isListening
+                      ? t.common.voiceListening
+                      : content.placeholder
+                  }
+                  aria-label={
+                    isListening
+                      ? t.common.voiceListening
+                      : content.placeholder
+                  }
+                  autoComplete="off"
+                  className={cn(
+                    "min-h-10 w-full rounded-md bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400",
+                    isListening && "pr-8"
+                  )}
+                />
+                {isListening ? (
+                  <Loader2
+                    aria-hidden="true"
+                    className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-rose-600"
+                  />
+                ) : null}
+              </div>
+              {isSupported ? (
+                <button
+                  type="button"
+                  onClick={handleVoiceToggle}
+                  aria-label={
+                    isListening ? t.common.voiceStop : t.common.voiceStart
+                  }
+                  aria-pressed={isListening}
+                  className={cn(
+                    "grid h-10 w-10 shrink-0 place-items-center rounded-md border transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-700",
+                    isListening
+                      ? "animate-pulse border-rose-300 bg-rose-100 text-rose-700"
+                      : "border-cyan-200 bg-white text-cyan-800 hover:bg-cyan-50"
+                  )}
+                >
+                  {isListening ? (
+                    <MicOff aria-hidden="true" className="h-4 w-4" />
+                  ) : (
+                    <Mic aria-hidden="true" className="h-4 w-4" />
+                  )}
+                </button>
+              ) : null}
               <button
                 type="submit"
                 disabled={!input.trim()}
@@ -322,6 +394,17 @@ export function WorkerChatbot() {
                 <span className="sr-only sm:hidden">{content.send}</span>
               </button>
             </div>
+            <span role="status" aria-live="polite" className="sr-only">
+              {isListening ? t.common.voiceListening : ""}
+            </span>
+            {speechError ? (
+              <p
+                role="alert"
+                className="px-1 pt-1.5 text-[11px] font-semibold leading-snug text-rose-700"
+              >
+                {t.common.voiceError}
+              </p>
+            ) : null}
           </form>
         </section>
       )}

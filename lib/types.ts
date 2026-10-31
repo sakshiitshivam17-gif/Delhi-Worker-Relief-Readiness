@@ -77,6 +77,7 @@ export interface Camp {
   hours: string;
   services: CampServiceKey[];
   mapsQuery: string;
+  voiceAliases?: string[];
 }
 
 export type GrapStage = 0 | 1 | 2 | 3 | 4;
