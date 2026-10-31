@@ -32,6 +32,11 @@ export const bn: Dictionary = {
       "এটি প্রস্তুতির টুল — সরকারি পোর্টাল নয়। সহায়তার নিশ্চয়তা নেই।",
     a11yListen: "এই লেখাটি শুনুন",
     a11yStop: "পড়া থামান",
+    voiceStart: "বলে লিখুন",
+    voiceStop: "শোনা বন্ধ করুন",
+    voiceListening: "শুনছি… বলুন",
+    voiceUnsupported: "এই ব্রাউজারে ভয়েস ইনপুট সমর্থিত নয়",
+    voiceError: "ভয়েস ইনপুট কাজ করেনি। আবার চেষ্টা করুন বা টাইপ করুন।",
     percent: "{percent}%",
   },
   nav: {
