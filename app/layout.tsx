@@ -4,6 +4,7 @@ import { Manrope, Noto_Sans_Devanagari } from "next/font/google";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
 import { SkipLink } from "@/components/SkipLink";
+import { WorkerChatbot } from "@/components/WorkerChatbot";
 import { AppProviders } from "@/components/providers/AppProviders";
 import "./globals.css";
 
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             {children}
           </main>
           <BottomNav />
+          <WorkerChatbot />
         </AppProviders>
       </body>
     </html>

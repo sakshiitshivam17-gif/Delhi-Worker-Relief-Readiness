@@ -16,13 +16,22 @@ export function formatMessage(
   });
 }
 
+const LOCALES: Record<Language, string> = {
+  en: "en-IN",
+  hinglish: "en-IN",
+  hi: "hi-IN",
+  pa: "pa-IN",
+  mr: "mr-IN",
+  bn: "bn-IN",
+  ta: "ta-IN",
+};
+
 export function getLocale(language: Language): string {
-  return language === "hi" ? "hi-IN" : "en-IN";
+  return LOCALES[language];
 }
 
 export function getSpeechLocale(language: Language): string {
-  if (language === "hi") return "hi-IN";
-  return "en-IN";
+  return LOCALES[language];
 }
 
 export function todayIso(timeZone = "Asia/Kolkata"): string {

@@ -1,4 +1,8 @@
 import type { Language } from "@/lib/types";
+import { bn } from "@/lib/translations/bn";
+import { mr } from "@/lib/translations/mr";
+import { pa } from "@/lib/translations/pa";
+import { ta } from "@/lib/translations/ta";
 
 export const DEFAULT_LANGUAGE: Language = "hinglish";
 
@@ -11,6 +15,10 @@ export const LANGUAGE_OPTIONS: ReadonlyArray<{
   { code: "en", label: "English", letter: "A", short: "EN" },
   { code: "hinglish", label: "Hinglish", letter: "Aअ", short: "HI" },
   { code: "hi", label: "हिंदी", letter: "अ", short: "हिं" },
+  { code: "pa", label: "ਪੰਜਾਬੀ", letter: "ਪ", short: "ਪੰ" },
+  { code: "mr", label: "मराठी", letter: "म", short: "मरा" },
+  { code: "bn", label: "বাংলা", letter: "ব", short: "বাং" },
+  { code: "ta", label: "தமிழ்", letter: "த", short: "தமி" },
 ];
 
 const en = {
@@ -1465,6 +1473,10 @@ export const dictionaries: Record<Language, Dictionary> = {
   en,
   hinglish,
   hi,
+  pa,
+  mr,
+  bn,
+  ta,
 };
 
 export function getDictionary(language: Language): Dictionary {
