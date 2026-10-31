@@ -204,6 +204,8 @@ const en = {
     confirmed: "Days confirmed",
     waiting: "Waiting for verifier",
     addCta: "Add today's work",
+    whatsappShare: "Share via WhatsApp",
+    printPdf: "Print / Save PDF Slip",
     goalTitle: "Relief goal",
     goalBody:
       "{confirmed} of {target} days confirmed for ₹10,000 relief readiness",
@@ -694,6 +696,8 @@ const hinglish: Dictionary = {
     confirmed: "Confirmed din",
     waiting: "Verifier ka wait",
     addCta: "Aaj ka kaam likho",
+    whatsappShare: "WhatsApp par bhejo",
+    printPdf: "Print / PDF slip",
     goalTitle: "Relief goal",
     goalBody:
       "{target} mein se {confirmed} din confirm — ₹10,000 relief ki taiyari",
@@ -1181,6 +1185,8 @@ const hi: Dictionary = {
     confirmed: "पक्के दिन",
     waiting: "सत्यापन बाकी",
     addCta: "आज का काम दर्ज करें",
+    whatsappShare: "WhatsApp पर भेजें",
+    printPdf: "प्रिंट / PDF पर्ची",
     goalTitle: "सहायता लक्ष्य",
     goalBody:
       "{target} में से {confirmed} दिन पक्के — ₹10,000 सहायता की तैयारी",

@@ -117,3 +117,63 @@ dialog::backdrop {
     animation: none;
   }
 }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  body > *:not(.muster-roll-portal) {
+    display: none !important;
+  }
+
+  .muster-roll-portal {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: #fff !important;
+    backdrop-filter: none !important;
+  }
+
+  .muster-roll-shell {
+    max-width: none !important;
+    gap: 0 !important;
+  }
+
+  .muster-roll-sheet {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: #0f172a !important;
+  }
+
+  .muster-roll-sheet * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .muster-roll-table thead {
+    display: table-header-group;
+  }
+
+  .muster-roll-table tr,
+  .muster-roll-signatures {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

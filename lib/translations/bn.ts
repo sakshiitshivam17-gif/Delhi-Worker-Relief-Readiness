@@ -184,6 +184,8 @@ export const bn: Dictionary = {
     confirmed: "নিশ্চিত দিন",
     waiting: "যাচাইয়ের অপেক্ষা",
     addCta: "আজকের কাজ লিখুন",
+    whatsappShare: "WhatsApp এ পাঠান",
+    printPdf: "প্রিন্ট / PDF স্লিপ",
     goalTitle: "সহায়তার লক্ষ্য",
     goalBody:
       "{target}-এর মধ্যে {confirmed} দিন নিশ্চিত — ₹10,000 সহায়তার প্রস্তুতি",
