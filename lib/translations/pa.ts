@@ -183,6 +183,8 @@ export const pa: Dictionary = {
     confirmed: "ਪੱਕੇ ਦਿਨ",
     waiting: "ਵੈਰੀਫਾਇਰ ਦੀ ਉਡੀਕ",
     addCta: "ਅੱਜ ਦਾ ਕੰਮ ਦਰਜ ਕਰੋ",
+    whatsappShare: "WhatsApp 'ਤੇ ਭੇਜੋ",
+    printPdf: "ਪ੍ਰਿੰਟ / PDF ਪਰਚੀ",
     goalTitle: "ਰਾਹਤ ਟਾਰਗੇਟ",
     goalBody:
       "{target} ਵਿੱਚੋਂ {confirmed} ਦਿਨ ਪੱਕੇ — ₹10,000 ਰਾਹਤ ਦੀ ਤਿਆਰੀ",

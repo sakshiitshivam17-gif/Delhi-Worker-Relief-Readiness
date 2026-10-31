@@ -184,6 +184,8 @@ export const mr: Dictionary = {
     confirmed: "निश्चित दिवस",
     waiting: "पडताळणीची वाट",
     addCta: "आजचे काम नोंदवा",
+    whatsappShare: "WhatsApp वर पाठवा",
+    printPdf: "प्रिंट / PDF स्लिप",
     goalTitle: "मदत लक्ष्य",
     goalBody:
       "{target} पैकी {confirmed} दिवस निश्चित — ₹10,000 मदतीची तयारी",

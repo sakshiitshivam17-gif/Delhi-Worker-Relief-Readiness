@@ -7,12 +7,16 @@ import {
   Clock3,
   Info,
   Plus,
+  Printer,
+  Share2,
   X,
 } from "lucide-react";
+import { PrintableMusterRoll } from "@/components/PrintableMusterRoll";
 import { QuickEntryDialog } from "@/components/QuickEntryDialog";
 import { WorkdayCard } from "@/components/WorkdayCard";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { useWorkerData } from "@/components/providers/WorkerDataProvider";
+import { openWhatsAppMusterRoll } from "@/lib/export-muster-roll";
 import type { WorkdayEntry, WorkdayInput } from "@/lib/types";
 import { cn, formatMessage } from "@/lib/utils";
 
@@ -26,7 +30,7 @@ const FILTERS: WorkdayFilter[] = [
 ];
 
 export function WorkdaysTracker() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const {
     entries,
     totals,
@@ -36,35 +40,41 @@ export function WorkdaysTracker() {
   const [filter, setFilter] = useState<WorkdayFilter>("all");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogSession, setDialogSession] = useState(0);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const [notice, setNotice] = useState("");
 
   const percent = Math.round(
     (Math.min(totals.confirmed, totals.target) / totals.target) * 100
   );
 
-  const filteredEntries = useMemo(() => {
-    const sorted = [...entries].sort((a, b) =>
-      b.from.localeCompare(a.from)
-    );
+  const sortedEntries = useMemo(
+    () => [...entries].sort((a, b) => b.from.localeCompare(a.from)),
+    [entries]
+  );
 
+  const filteredEntries = useMemo(() => {
     if (filter === "confirmed") {
-      return sorted.filter((entry) => entry.status === "confirmed");
+      return sortedEntries.filter((entry) => entry.status === "confirmed");
     }
     if (filter === "waiting") {
-      return sorted.filter(
+      return sortedEntries.filter(
         (entry) =>
           entry.status === "pending" || entry.status === "correction"
       );
     }
     if (filter === "reported") {
-      return sorted.filter((entry) => entry.status === "reported");
+      return sortedEntries.filter((entry) => entry.status === "reported");
     }
-    return sorted;
-  }, [entries, filter]);
+    return sortedEntries;
+  }, [filter, sortedEntries]);
 
   function openDialog() {
     setDialogSession((value) => value + 1);
     setDialogOpen(true);
+  }
+
+  function handleWhatsAppShare() {
+    openWhatsAppMusterRoll({ entries: sortedEntries, totals, language });
   }
 
   function handleSubmit(input: WorkdayInput) {
@@ -188,6 +198,25 @@ export function WorkdaysTracker() {
         </p>
       </section>
 
+      <div className="grid gap-2 sm:grid-cols-2">
+        <button
+          type="button"
+          onClick={handleWhatsAppShare}
+          className="rounded-md border border-emerald-300 bg-emerald-50 text-emerald-950 hover:bg-emerald-100 flex min-h-11 touch-manipulation items-center justify-center gap-2 px-3.5 text-xs font-bold shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 active:scale-[0.98]"
+        >
+          <Share2 aria-hidden="true" className="h-4 w-4 shrink-0" />
+          {t.workdays.whatsappShare}
+        </button>
+        <button
+          type="button"
+          onClick={() => setPreviewOpen(true)}
+          className="rounded-md border border-purple-200 bg-white text-purple-900 hover:bg-purple-50 flex min-h-11 touch-manipulation items-center justify-center gap-2 px-3.5 text-xs font-bold shadow-xs transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-700 active:scale-[0.98]"
+        >
+          <Printer aria-hidden="true" className="h-4 w-4 shrink-0" />
+          {t.workdays.printPdf}
+        </button>
+      </div>
+
       {notice ? (
         <div
           role="status"
@@ -298,6 +327,14 @@ export function WorkdaysTracker() {
           {t.workdays.disclaimer}
         </p>
       </div>
+
+      <PrintableMusterRoll
+        open={previewOpen}
+        entries={sortedEntries}
+        totals={totals}
+        language={language}
+        onClose={() => setPreviewOpen(false)}
+      />
 
       <QuickEntryDialog
         key={dialogSession}

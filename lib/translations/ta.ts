@@ -185,6 +185,8 @@ export const ta: Dictionary = {
     confirmed: "உறுதிசெய்த நாட்கள்",
     waiting: "சரிபார்ப்புக்காகக் காத்திருப்பு",
     addCta: "இன்றைய வேலையைப் பதிவு செய்",
+    whatsappShare: "WhatsApp இல் பகிரவும்",
+    printPdf: "அச்சு / PDF ரசீது",
     goalTitle: "நிவாரண இலக்கு",
     goalBody:
       "{target}-ல் {confirmed} நாட்கள் உறுதி — ₹10,000 நிவாரணத் தயாரிப்பு",
