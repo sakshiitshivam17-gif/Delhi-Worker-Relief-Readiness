@@ -1,0 +1,50 @@
+Worker Saathi 🌍
+
+Helping Delhi-NCR workers access safety information and government welfare benefits.
+
+Worker Saathi is a web platform designed to make essential information more accessible to workers, especially during severe air pollution and other challenging conditions.
+
+🎯 Our Mission
+
+Help workers understand government schemes, discover relevant benefits, and access important safety information without unnecessary complexity.
+
+✨ Key Features
+
+₹10,000 Financial Assistance Awareness: Help eligible construction workers discover information about the ₹10,000 financial assistance scheme and understand how to apply.
+
+GRAP Tracker: Retrieve official air-pollution-related notices from the Commission for Air Quality Management (CAQM).
+
+Worker Safety Awareness: Make important environmental updates easier to access and understand.
+
+Accessible Information: Build a simpler, worker-focused experience.
+
+Important: Financial assistance depends on official eligibility criteria, application requirements, and approval. Worker Saathi helps workers find information; it does not guarantee payment.
+
+🛠️ Tech Stack
+
+Next.js 16
+
+React 19
+
+TypeScript
+
+Tailwind CSS 4
+
+CAQM Public API
+
+Vercel
+
+🚀 Getting Started
+
+git clone <your-repository-url>
+cd <repository-folder>
+npm install
+npm run dev
+
+Open http://localhost:3000 in your browser.
+
+🔮 Our Vision
+
+To make government benefits and worker-safety information easier to discover, understand, and access—helping workers make informed decisions and connect with support they may be eligible to receive.
+
+Built for workers. Designed for accessibility. Focused on impact.
