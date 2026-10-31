@@ -6,6 +6,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { SkipLink } from "@/components/SkipLink";
 import { WorkerChatbot } from "@/components/WorkerChatbot";
 import { AppProviders } from "@/components/providers/AppProviders";
+
 import "./globals.css";
 
 const manrope = Manrope({
