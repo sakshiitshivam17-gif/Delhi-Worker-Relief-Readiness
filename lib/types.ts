@@ -1,4 +1,4 @@
-export type Language = "en" | "hinglish" | "hi";
+export type Language = "en" | "hinglish" | "hi" | "pa" | "mr" | "bn" | "ta";
 
 export type NavKey = "home" | "workdays" | "checklist" | "camps" | "updates";
 

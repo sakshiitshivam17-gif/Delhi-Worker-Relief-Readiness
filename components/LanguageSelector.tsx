@@ -46,7 +46,7 @@ export function LanguageSelector({ compact = false }: LanguageSelectorProps) {
     <div
       role="group"
       aria-label={t.common.language}
-      className="flex w-full items-center gap-1 rounded-md border border-purple-200/80 bg-purple-50/50 p-1 shadow-sm sm:w-auto"
+      className="flex w-full flex-wrap items-center gap-1.5 rounded-md border border-purple-200/80 bg-purple-50/50 p-1 shadow-sm sm:w-auto"
     >
       <span
         aria-hidden="true"

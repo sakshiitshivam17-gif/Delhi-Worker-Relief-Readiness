@@ -30,7 +30,15 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 function isLanguage(value: string | null): value is Language {
-  return value === "en" || value === "hinglish" || value === "hi";
+  return (
+    value === "en" ||
+    value === "hinglish" ||
+    value === "hi" ||
+    value === "pa" ||
+    value === "mr" ||
+    value === "bn" ||
+    value === "ta"
+  );
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -52,7 +60,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const language = selectedLanguage ?? storedLanguage;
 
   useEffect(() => {
-    document.documentElement.lang = language === "hi" ? "hi" : "en";
+    document.documentElement.lang =
+      language === "hinglish" ? "en" : language;
   }, [language]);
 
   const setLanguage = useCallback((nextLanguage: Language) => {
