@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { ActionTile } from "@/components/ActionTile";
 import { AqiGrapWidget } from "@/components/AqiGrapWidget";
+import { AudioOnboardingWalkthrough } from "@/components/AudioOnboardingWalkthrough";
 import { NextStepCard } from "@/components/NextStepCard";
 import { ReliefProgressCard } from "@/components/ReliefProgressCard";
 import { SpeakButton } from "@/components/SpeakButton";
@@ -27,6 +28,8 @@ export default function HomePage() {
 
   return (
     <div className="space-y-5 lg:space-y-6">
+      <AudioOnboardingWalkthrough />
+
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
         <div className="space-y-4 md:col-span-1 lg:col-span-7 lg:space-y-5">
           <section
